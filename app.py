@@ -4,7 +4,7 @@ from model import Model
 import sys
 
 datamodelcfg = {
-    "product_id": "product_id",
+    "product_id": "id",
     "name": "name",
     "props": "props",
     "reference_id": "reference_id"
@@ -25,19 +25,12 @@ def LookUpForId(productstr):
 
 class ProductMatch(Resource):        
     def post(self):
-        data = []
-        length = len(request.json)
-        for i in range(length):
-            app.logger.info(i)
-            productstr = request.json[i]
-            isproperstr = True
 
 
-            final_json = LookUpForId(productstr)
-            data.append(final_json)
+        final_json = LookUpForId(request.json)
 
         response = app.response_class(
-            response = data,
+            response = final_json,
             status=200,
             mimetype='application/json'
         )
