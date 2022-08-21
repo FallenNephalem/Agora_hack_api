@@ -16,10 +16,11 @@ api = Api(app)
 
 app.debug = True
 
+predict_model = Model()
+predict_model.fit('agora_hack_products.json')
+
 def LookUpForId(productstr):
     # json_file = open('agora_hack_products.json')
-    predict_model = Model()
-    predict_model.fit('agora_hack_products.json')
     return predict_model.predict(json.dumps(productstr))
 
 class ProductMatch(Resource):        
