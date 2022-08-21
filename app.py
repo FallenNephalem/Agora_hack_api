@@ -17,9 +17,10 @@ api = Api(app)
 app.debug = True
 
 def LookUpForId(productstr):
+    # json_file = open('agora_hack_products.json')
     predict_model = Model()
-    predict_model.fit('agora_hack_products.json') 
-    return predict_model.predict(productstr)
+    predict_model.fit('agora_hack_products.json')
+    return predict_model.predict(json.dumps(productstr))
 
 class ProductMatch(Resource):        
     def post(self):
@@ -27,17 +28,15 @@ class ProductMatch(Resource):
         length = len(request.json)
         for i in range(length):
             app.logger.info(i)
-            productstr = request.json
+            productstr = request.json[i]
             isproperstr = True
 
 
-            reference_id = LookUpForId(productstr)
-            idstr = datamodelcfg["product_id"]
-            data.append({idstr: productstr[idstr], 
-            datamodelcfg["reference_id"]: reference_id,} if isproperstr else {})
+            final_json = LookUpForId(productstr)
+            data.append(final_json)
 
         response = app.response_class(
-            response = json.dumps(data),
+            response = data,
             status=200,
             mimetype='application/json'
         )

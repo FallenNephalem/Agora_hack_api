@@ -58,7 +58,7 @@ class TextNormalyzer:
         dataframe['text'] = [""]*len(dataframe)
         for i in dataframe.index:
             dataframe['text'][i] = dataframe['name'][i]+" "+" ".join(dataframe['props'][i])
-        dataframe['text'] = dataframe['text'].str.lower()
+        dataframe['text'] = dataframe['text'].astype(str).str.lower()
         #products_df['name'] = products_df['name'].apply(lambda x: remove_numbers(x))
         dataframe['text'] = dataframe['text'].apply(lambda x: self.remove_punctuation(x))
         dataframe['text'] = dataframe['text'].apply(lambda x: self.remove_stopwords(x))
